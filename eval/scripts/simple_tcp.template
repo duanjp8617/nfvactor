@@ -1,0 +1,8 @@
+pkt_size = int($SN_PKT_SIZE!'sizzz')
+assert(60 <= pkt_size <= 1522)
+eth = scapy.Ether(src='02:1e:67:9f:4d:ae', dst='06:16:3e:1b:72:32')
+ip = scapy.IP(src='10.0.0.1', dst='10.0.0.2')   # dst IP is overwritten
+tcp = scapy.TCP(sport=10001, dport=80)
+payload = ('hello' + '0123456789' * 200)[:pkt_size-len(eth/ip/tcp)]
+pkt = eth/ip/tcp/payload
+pkt_data = bytearray(str(pkt))

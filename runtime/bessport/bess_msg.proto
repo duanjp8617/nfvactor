@@ -1,0 +1,283 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+import "error.proto";
+
+package bess.pb;
+
+message EmptyRequest {
+}
+
+message EmptyArg {
+}
+
+message EmptyResponse {
+  Error error = 1;
+}
+
+message DisableTcpdumpRequest {
+  string name = 1;
+  uint64 gate = 2;
+  bool is_igate = 3;
+}
+
+message EnableTcpdumpRequest {
+  string name = 1;
+  uint64 gate = 2;
+  string fifo = 3;
+  bool is_igate = 4;
+}
+
+message AttachTaskRequest {
+  string name = 1;
+  uint64 taskid = 2;
+  oneof identifier {
+    string tc = 3;
+    uint64 wid = 4;
+  }
+}
+
+message DisconnectModulesRequest {
+  string name = 1;
+  uint64 ogate = 2;
+}
+
+message ConnectModulesRequest {
+  string m1 = 1;
+  string m2 = 2;
+  uint64 ogate = 3;
+  uint64 igate = 4;
+}
+
+message GetModuleInfoResponse {
+  message IGate {
+    message OGate {
+      uint64 ogate = 1;
+      string name = 2;
+    }
+    uint64 igate = 1;
+    repeated OGate ogates = 2;
+    uint64 cnt = 3;
+    uint64 pkts = 4;
+    double timestamp = 5;
+  }
+  message OGate {
+    uint64 ogate = 1;
+    uint64 cnt = 2;
+    uint64 pkts = 3;
+    double timestamp = 4;
+    string name = 5;
+    uint64 igate = 6;
+  }
+  message Attribute {
+    string name = 1;
+    uint64 size = 2;
+    string mode = 3;
+    int64 offset = 4;
+  }
+  Error error = 1;
+  string name = 2;
+  string mclass = 3;
+  string desc = 4;
+  // TODO: string dump = 4;
+  repeated IGate igates = 6;
+  repeated OGate ogates = 7;
+  repeated Attribute metadata = 8;
+}
+
+message GetModuleInfoRequest {
+  string name = 1;
+}
+
+message DestroyModuleRequest {
+  string name = 1;
+}
+
+message CreateModuleResponse {
+  Error error = 1;
+  string name = 2;
+}
+
+message ListModulesResponse {
+  message Module {
+    string name = 1;
+    string mclass = 2;
+    string desc = 3;
+  }
+  Error error = 1;
+  repeated Module modules = 2;
+}
+
+message GetPortStatsResponse {
+  message Stat {
+    uint64 packets = 1;
+    uint64 dropped = 2;
+    uint64 bytes = 3;
+  }
+  Error error = 1;
+  Stat inc = 2;
+  Stat out = 3;
+  double timestamp = 4;
+}
+
+message GetPortStatsRequest {
+  string name = 1;
+}
+
+message DestroyPortRequest {
+  string name = 1;
+}
+
+message Port {
+  string name = 1;
+  string driver = 2;
+}
+
+message ListPortsResponse {
+  Error error = 1;
+  repeated Port ports = 2;
+}
+
+message ListWorkersResponse {
+  message WorkerStatus {
+    int64 wid = 1;
+    int64 core = 2;
+    int64 running = 3;
+    int64 num_tcs = 4;
+    int64 silent_drops = 5;
+  }
+  Error error = 1;
+  repeated WorkerStatus workers_status = 2;
+}
+
+message AddWorkerRequest {
+  int64 wid = 1;
+  int64 core = 2;
+}
+
+message ListTcsRequest {
+  int64 wid = 1;
+}
+
+message TrafficClass {
+  message Resource {
+    int64 schedules = 1;
+    int64 cycles = 2;
+    int64 packets = 3;
+    int64 bits = 4;
+  }
+  string name = 1;
+  int64 priority = 2;
+  int64 wid = 3;
+  Resource limit = 4;
+  Resource max_burst = 5;
+}
+
+message GetTcStatsResponse {
+  Error error = 1;
+  double timestamp = 2;
+  uint64 count = 3;
+  uint64 cycles = 4;
+  uint64 packets = 5;
+  uint64 bits = 6;
+}
+
+message ListTcsResponse {
+  message TrafficClassStatus {
+    TrafficClass class = 1;
+    string parent = 2;
+    int64 tasks = 3;
+  }
+  Error error = 1;
+  repeated TrafficClassStatus classes_status = 2;
+}
+
+message AddTcRequest {
+  TrafficClass class = 1;
+}
+
+message GetTcStatsRequest {
+  string name = 1;
+}
+
+message ListDriversResponse {
+  Error error = 1;
+  repeated string driver_names = 2;
+}
+
+message GetDriverInfoRequest {
+  string driver_name = 1;
+}
+
+message GetDriverInfoResponse {
+  Error error = 1;
+  string name = 2;
+  string help = 3;
+  repeated string commands = 4;
+}
+
+message ListMclassResponse {
+  Error error = 1;
+  repeated string names = 2;
+}
+
+message GetMclassInfoRequest {
+  string name = 1;
+}
+
+message GetMclassInfoResponse {
+  Error error = 1;
+  string name = 2;
+  string help = 3;
+  repeated string cmds = 4;
+  repeated string cmd_args = 5;
+}
+
+message CreateModuleRequest {
+  string name = 1;
+  string mclass = 2;
+  google.protobuf.Any arg = 3;
+}
+
+message ModuleCommandRequest {
+  string name = 1;
+  string cmd = 2;
+  google.protobuf.Any arg = 3;
+}
+
+message ModuleCommandResponse {
+  Error error = 1;
+  google.protobuf.Any other = 2;
+}
+
+message CreatePortRequest {
+  string name = 1;
+  string driver = 2;
+  uint64 num_inc_q = 3;
+  uint64 num_out_q = 4;
+  uint64 size_inc_q = 5;
+  uint64 size_out_q = 6;
+  string mac_addr = 7;
+  google.protobuf.Any arg = 8;
+}
+
+message CreatePortResponse {
+  Error error = 1;
+  string name = 2;
+}
+
+message EnableTrackRequest {
+  string name = 1;
+  int64 gate = 2;
+  bool is_igate = 3;
+  bool use_gate = 4;
+}
+
+message DisableTrackRequest {
+  string name = 1;
+  int64 gate = 2;
+  bool is_igate = 3;
+  bool use_gate = 4;
+}
+
+// TODO: add something like PortCommandRequest

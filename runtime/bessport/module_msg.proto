@@ -1,0 +1,348 @@
+syntax = "proto3";
+
+package bess.pb;
+
+// Module-specific messages.
+// The header generated from this file should not be included in the BESS core
+// source code.
+
+message BPFCommandClearArg {
+}
+
+message ExactMatchCommandAddArg {
+  uint64 gate = 1;
+  repeated bytes fields = 2;
+}
+
+message ExactMatchCommandDeleteArg {
+  repeated bytes fields = 2;
+}
+
+message ExactMatchCommandClearArg {
+}
+
+message ExactMatchCommandSetDefaultGateArg {
+  uint64 gate = 1;
+}
+
+message HashLBCommandSetModeArg {
+  string mode = 1;
+}
+
+message HashLBCommandSetGatesArg {
+  repeated int64 gates = 1;
+}
+
+message IPLookupCommandAddArg {
+  string prefix = 1;
+  uint64 prefix_len = 2;
+  uint64 gate = 3;
+}
+
+message IPLookupCommandClearArg {
+}
+
+message L2ForwardCommandAddArg {
+  message Entry {
+    string addr = 1;
+    int64 gate = 2;
+  }
+  repeated Entry entries = 1;
+}
+
+message L2ForwardCommandDeleteArg {
+  repeated string addrs = 1;
+}
+
+message L2ForwardCommandSetDefaultGateArg {
+  int64 gate = 1;
+}
+
+message L2ForwardCommandLookupArg {
+  repeated string addrs = 1;
+}
+
+message L2ForwardCommandLookupResponse {
+  repeated uint64 gates = 1;
+}
+
+message L2ForwardCommandPopulateArg {
+  string base = 1;
+  int64 count = 2;
+  int64 gate_count = 3;
+}
+
+message MeasureCommandGetSummaryArg {
+}
+
+message MeasureCommandGetSummaryResponse {
+  double timestamp = 1;
+  uint64 packets = 2;
+  uint64 bits = 3;
+  uint64 total_latency_ns = 4;
+}
+
+message PortIncCommandSetBurstArg {
+  int64 burst = 1;
+}
+
+message QueueIncCommandSetBurstArg {
+  int64 burst = 1;
+}
+
+message QueueCommandSetBurstArg {
+  int64 burst = 1;
+}
+
+message QueueCommandSetSizeArg {
+  uint64 size = 1;
+}
+
+message RandomUpdateCommandClearArg {
+}
+
+message RewriteCommandClearArg {
+}
+
+message UpdateCommandClearArg {
+}
+
+message WildcardMatchCommandAddArg {
+  uint64 gate = 1;
+  int64 priority = 2;
+  repeated uint64 values = 3;
+  repeated uint64 masks = 4;
+}
+
+message WildcardMatchCommandDeleteArg {
+  repeated uint64 values = 1;
+  repeated uint64 masks = 2;
+}
+
+message WildcardMatchCommandClearArg {
+}
+
+message WildcardMatchCommandSetDefaultGateArg {
+  uint64 gate = 1;
+}
+
+message BPFArg {
+  message Filter {
+    int64 priority = 1;
+    string filter = 2;
+    int64 gate = 3;
+  }
+  repeated Filter filters = 1;
+}
+
+message BufferArg {
+}
+
+message BypassArg {
+}
+
+message DumpArg {
+  double interval = 1;
+}
+
+message EtherEncapArg {
+}
+
+message ExactMatchArg {
+  message Field {
+    uint64 size = 1;
+    uint64 mask = 4;
+    oneof position {
+      string name = 2;
+      int64 offset = 3;
+    }
+  }
+  repeated Field fields = 1;
+}
+
+message FlowGenArg {
+  bytes template = 1;
+  double pps = 2;
+  double flow_rate = 3;
+  double flow_duration = 4;
+  string arrival = 5;
+  string duration = 6;
+  bool quick_rampup = 7;
+}
+
+message GenericDecapArg {
+  uint64 bytes = 1;
+}
+
+message GenericEncapArg {
+  message Field {
+    uint64 size = 1;
+    oneof attribute {
+      string attr_name = 2;
+      uint64 value = 3;
+    }
+  }
+  repeated Field fields = 1;
+}
+
+message HashLBArg {
+  repeated int64 gates = 1;
+  string mode = 2;
+}
+
+message IPEncapArg {
+}
+
+message IPLookupArg {
+}
+
+message L2ForwardArg {
+  int64 size = 1;
+  int64 bucket = 2;
+}
+
+message MACSwapArg {
+}
+
+message MeasureArg {
+  int64 warmup = 1;
+}
+
+message MergeArg {
+}
+
+message MetadataTestArg {
+  map<string, int64> read = 1;
+  map<string, int64> write = 2;
+  map<string, int64> update = 3;
+}
+
+message NoOpArg {
+}
+
+message PortIncArg {
+  string port = 1;
+  int64 burst = 2;
+  bool prefetch = 3;
+}
+
+message PortOutArg {
+  string port = 1;
+}
+
+message QueueIncArg {
+  string port = 1;
+  uint64 qid = 2;
+  int64 burst = 3;
+  bool prefetch = 4;
+}
+
+message QueueOutArg {
+  string port = 1;
+  uint64 qid = 2;
+}
+
+message QueueArg {
+  uint64 size = 1;
+  int64 burst = 2;
+  bool prefetch = 3;
+}
+
+message RandomUpdateArg {
+  message Field {
+    int64 offset = 1;
+    uint64 size = 2;
+    uint64 min = 3;
+    uint64 max = 4;
+  }
+  repeated Field fields = 1;
+}
+
+message RewriteArg {
+  repeated bytes templates = 1;
+}
+
+message RoundRobinCommandSetGatesArg {
+  repeated int64 gates = 1;
+}
+
+message RoundRobinCommandSetModeArg {
+  string mode = 1;
+}
+
+message RoundRobinArg {
+  repeated int64 gates = 1;
+  string mode = 2;
+}
+
+message SetMetadataArg {
+  message Attribute {
+    string name = 1;
+    uint64 size = 2;
+    uint64 value = 3;
+    int64 offset = 4;
+  }
+  repeated Attribute attrs = 1;
+}
+
+message SinkArg {
+}
+
+message SourceCommandSetBurstArg {
+  uint64 burst = 1;
+}
+
+message SourceCommandSetPktSizeArg {
+  uint64 pkt_size = 1;
+}
+
+message SourceArg {
+  uint64 pkt_size = 1;
+  uint64 burst = 2;
+}
+
+message SplitArg {
+  uint64 size = 1;
+  string name = 2;
+  int64 offset = 3;
+}
+
+message TimestampArg {
+}
+
+message UpdateArg {
+  message Field {
+    int64 offset = 1;
+    uint64 size = 2;
+    uint64 value = 3;
+  }
+  repeated Field fields = 1;
+}
+
+message VLANPopArg {
+}
+
+message VLANPushArg {
+  uint64 tci = 1;
+}
+
+message VLANSplitArg {
+}
+
+message VXLANDecapArg {
+}
+
+message VXLANEncapArg {
+  uint64 dstport = 1;
+}
+
+message WildcardMatchArg {
+  message Field {
+    uint64 size = 1;
+    oneof length {
+      uint64 offset = 2;
+      string attribute = 3;
+    }
+  }
+  repeated Field fields = 1;
+}

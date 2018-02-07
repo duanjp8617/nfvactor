@@ -1,0 +1,212 @@
+import scapy.all as scapy
+
+sink = Sink()
+
+# runtime 1:
+# iport_mac: 52:54:03:01:00:01
+# oport_mac: 52:54:03:01:00:02
+# cport_mac: 52:54:03:01:00:03
+rt1_iport = ZeroCopyVPort(name='rt1_iport')
+rt1_oport = ZeroCopyVPort(name='rt1_oport')
+rt1_cport = ZeroCopyVPort(name='rt1_cport')
+
+rt1_iport_portinc::PortInc(port=rt1_iport)
+rt1_iport_portout::PortOut(port=rt1_iport)
+rt1_oport_portinc::PortInc(port=rt1_oport)
+rt1_oport_portout::PortOut(port=rt1_oport)
+rt1_cport_portinc::PortInc(port=rt1_cport)
+rt1_cport_portout::PortOut(port=rt1_cport)
+
+# runtime 2:
+# iport_mac: 52:54:03:02:00:01
+# oport_mac: 52:54:03:02:00:02
+# cport_mac: 52:54:03:02:00:03
+rt2_iport = ZeroCopyVPort(name='rt2_iport')
+rt2_oport = ZeroCopyVPort(name='rt2_oport')
+rt2_cport = ZeroCopyVPort(name='rt2_cport')
+
+rt2_iport_portinc::PortInc(port=rt2_iport)
+rt2_iport_portout::PortOut(port=rt2_iport)
+rt2_oport_portinc::PortInc(port=rt2_oport)
+rt2_oport_portout::PortOut(port=rt2_oport)
+rt2_cport_portinc::PortInc(port=rt2_cport)
+rt2_cport_portout::PortOut(port=rt2_cport)
+
+# runtime 3:
+# iport_mac: 52:54:03:03:00:01
+# oport_mac: 52:54:03:03:00:02
+# cport_mac: 52:54:03:03:00:03
+rt3_iport = ZeroCopyVPort(name='rt3_iport')
+rt3_oport = ZeroCopyVPort(name='rt3_oport')
+rt3_cport = ZeroCopyVPort(name='rt3_cport')
+
+rt3_iport_portinc::PortInc(port=rt3_iport)
+rt3_iport_portout::PortOut(port=rt3_iport)
+rt3_oport_portinc::PortInc(port=rt3_oport)
+rt3_oport_portout::PortOut(port=rt3_oport)
+rt3_cport_portinc::PortInc(port=rt3_cport)
+rt3_cport_portout::PortOut(port=rt3_cport)
+
+# runtime 4:
+# iport_mac: 52:54:03:04:00:01
+# oport_mac: 52:54:03:04:00:02
+# cport_mac: 52:54:03:04:00:03
+rt4_iport = ZeroCopyVPort(name='rt4_iport')
+rt4_oport = ZeroCopyVPort(name='rt4_oport')
+rt4_cport = ZeroCopyVPort(name='rt4_cport')
+
+rt4_iport_portinc::PortInc(port=rt4_iport)
+rt4_iport_portout::PortOut(port=rt4_iport)
+rt4_oport_portinc::PortInc(port=rt4_oport)
+rt4_oport_portout::PortOut(port=rt4_oport)
+rt4_cport_portinc::PortInc(port=rt4_cport)
+rt4_cport_portout::PortOut(port=rt4_cport)
+
+# runtime 5:
+# iport_mac: 52:54:03:05:00:01
+# oport_mac: 52:54:03:05:00:02
+# cport_mac: 52:54:03:05:00:03
+rt5_iport = ZeroCopyVPort(name='rt5_iport')
+rt5_oport = ZeroCopyVPort(name='rt5_oport')
+rt5_cport = ZeroCopyVPort(name='rt5_cport')
+
+rt5_iport_portinc::PortInc(port=rt5_iport)
+rt5_iport_portout::PortOut(port=rt5_iport)
+rt5_oport_portinc::PortInc(port=rt5_oport)
+rt5_oport_portout::PortOut(port=rt5_oport)
+rt5_cport_portinc::PortInc(port=rt5_cport)
+rt5_cport_portout::PortOut(port=rt5_cport)
+
+# runtime 6:
+# iport_mac: 52:54:03:06:00:01
+# oport_mac: 52:54:03:06:00:02
+# cport_mac: 52:54:03:06:00:03
+rt6_iport = ZeroCopyVPort(name='rt6_iport')
+rt6_oport = ZeroCopyVPort(name='rt6_oport')
+rt6_cport = ZeroCopyVPort(name='rt6_cport')
+
+rt6_iport_portinc::PortInc(port=rt6_iport)
+rt6_iport_portout::PortOut(port=rt6_iport)
+rt6_oport_portinc::PortInc(port=rt6_oport)
+rt6_oport_portout::PortOut(port=rt6_oport)
+rt6_cport_portinc::PortInc(port=rt6_cport)
+rt6_cport_portout::PortOut(port=rt6_cport)
+
+# Add data plane physical port.
+rt_pdport = PMDPort(name='rt_pdport', port_id=0)
+rt_pdport_portout::PortOut(port=rt_pdport)
+rt_pdport_portinc::PortInc(port=rt_pdport)
+
+# Add control plane physical port.
+rt_pcport = PMDPort(name='rt_pcport', port_id=1)
+rt_pcport_portout::PortOut(port=rt_pcport)
+rt_pcport_portinc::PortInc(port=rt_pcport)
+
+# Add the two l2forwad modules.
+dp_l2forward = L2Forward()
+cp_l2forward = L2Forward()
+
+# Add data plane connections.
+rt_pdport_portinc -> dp_l2forward
+rt1_iport_portinc -> dp_l2forward
+rt2_iport_portinc -> dp_l2forward
+rt3_iport_portinc -> dp_l2forward
+rt4_iport_portinc -> dp_l2forward
+rt5_iport_portinc -> dp_l2forward
+rt6_iport_portinc -> dp_l2forward
+
+dp_l2forward:0 -> rt_pdport_portout
+dp_l2forward:1 -> rt1_iport_portout
+dp_l2forward:2 -> rt2_iport_portout
+dp_l2forward:3 -> rt3_iport_portout
+dp_l2forward:4 -> rt4_iport_portout
+dp_l2forward:5 -> rt5_iport_portout
+dp_l2forward:6 -> rt6_iport_portout
+
+rt1_oport_portinc -> sink
+rt2_oport_portinc -> sink
+rt3_oport_portinc -> sink
+rt4_oport_portinc -> sink
+rt5_oport_portinc -> sink
+rt6_oport_portinc -> sink
+
+# Add control plane connections
+rt_pcport_portinc -> cp_l2forward
+rt1_cport_portinc -> cp_l2forward
+rt2_cport_portinc -> cp_l2forward
+rt3_cport_portinc -> cp_l2forward
+rt4_cport_portinc -> cp_l2forward
+rt5_cport_portinc -> cp_l2forward
+rt6_cport_portinc -> cp_l2forward
+
+
+cp_l2forward:0 -> rt_pcport_portout
+cp_l2forward:1 -> rt1_cport_portout
+cp_l2forward:2 -> rt2_cport_portout
+cp_l2forward:3 -> rt3_cport_portout
+cp_l2forward:4 -> rt4_cport_portout
+cp_l2forward:5 -> rt5_cport_portout
+cp_l2forward:6 -> rt6_cport_portout
+
+# Add switching rules for data plane l2forward.
+ret = dp_l2forward.add([
+                        {'addr':'52:54:01:01:00:02', 'gate':0},
+                        {'addr':'52:54:01:02:00:02', 'gate':0},
+                        {'addr':'52:54:01:03:00:02', 'gate':0},
+                        {'addr':'52:54:01:04:00:02', 'gate':0},
+                        {'addr':'52:54:01:05:00:02', 'gate':0},
+                        {'addr':'52:54:01:06:00:02', 'gate':0},
+
+                        {'addr':'52:54:03:01:00:01', 'gate':1},
+                        {'addr':'52:54:03:02:00:01', 'gate':2},
+                        {'addr':'52:54:03:03:00:01', 'gate':3},
+                        {'addr':'52:54:03:04:00:01', 'gate':4},
+                        {'addr':'52:54:03:05:00:01', 'gate':5},
+                        {'addr':'52:54:03:06:00:01', 'gate':6}
+                      ])
+assert ret is None, 'Incorrect response'
+
+# Add switching rules for control plane l2forward
+ret = cp_l2forward.add([
+            						{'addr':'52:54:02:01:00:03', 'gate':0},
+            						{'addr':'52:54:02:02:00:03', 'gate':0},
+            						{'addr':'52:54:02:03:00:03', 'gate':0},
+                        {'addr':'52:54:02:04:00:03', 'gate':0},
+            						{'addr':'52:54:02:05:00:03', 'gate':0},
+            						{'addr':'52:54:02:06:00:03', 'gate':0},
+
+            						{'addr':'52:54:03:01:00:03', 'gate':1},
+            						{'addr':'52:54:03:02:00:03', 'gate':2},
+            						{'addr':'52:54:03:03:00:03', 'gate':3},
+                        {'addr':'52:54:03:04:00:03', 'gate':4},
+            						{'addr':'52:54:03:05:00:03', 'gate':5},
+            						{'addr':'52:54:03:06:00:03', 'gate':6}
+                      ])
+assert ret is None, 'Incorrect response'
+
+# Assign data plane worker threading
+bess.add_worker(8, 8)
+bess.attach_task("rt1_iport_portinc", 0, wid=8)
+bess.attach_task("rt2_iport_portinc", 0, wid=8)
+bess.attach_task("rt3_iport_portinc", 0, wid=8)
+bess.attach_task("rt4_iport_portinc", 0, wid=8)
+bess.attach_task("rt5_iport_portinc", 0, wid=8)
+bess.attach_task("rt6_iport_portinc", 0, wid=8)
+
+bess.attach_task("rt1_oport_portinc", 0, wid=8)
+bess.attach_task("rt2_oport_portinc", 0, wid=8)
+bess.attach_task("rt3_oport_portinc", 0, wid=8)
+bess.attach_task("rt4_oport_portinc", 0, wid=8)
+bess.attach_task("rt5_oport_portinc", 0, wid=8)
+bess.attach_task("rt6_oport_portinc", 0, wid=8)
+
+bess.attach_task("rt_pdport_portinc", 0, wid=8)
+
+bess.add_worker(9, 9)
+bess.attach_task("rt1_cport_portinc", 0, wid=9)
+bess.attach_task("rt2_cport_portinc", 0, wid=9)
+bess.attach_task("rt3_cport_portinc", 0, wid=9)
+bess.attach_task("rt4_cport_portinc", 0, wid=9)
+bess.attach_task("rt5_cport_portinc", 0, wid=9)
+bess.attach_task("rt6_cport_portinc", 0, wid=9)
+bess.attach_task("rt_pcport_portinc", 0, wid=9)

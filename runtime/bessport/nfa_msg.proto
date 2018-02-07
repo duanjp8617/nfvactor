@@ -1,0 +1,236 @@
+syntax = "proto3";
+
+package nfa_msg;
+
+service Runtime_RPC {
+  // Sends a greeting
+  rpc LivenessCheck (LivenessRequest) returns (LivenessReply) {}
+  
+  rpc AddOutputRts (AddOutputRtsReq) returns (AddOutputRtsRes) {} 
+  rpc AddInputRt (AddInputRtReq) returns (AddInputRtRep) {}
+  rpc DeleteOutputRt (DeleteOutputRtReq) returns (DeleteOutputRtRep) {}
+  rpc DeleteInputRt (DeleteInputRtReq) returns (DeleteInputRtRep) {}
+  
+  rpc AddOutputMac (AddOutputMacReq) returns (AddOutputMacRep) {}
+  rpc AddInputMac (AddInputMacReq) returns (AddInputMacRep) {}
+  rpc DeleteInputMac (DeleteInputMacReq) returns (DeleteInputMacRep) {}
+  rpc DeleteOutputMac (DeleteOutputMacReq) returns (DeleteOutputMacRep) {}
+  
+  rpc MigrateTo (MigrateToReq) returns (MigrateToRep) {}
+  rpc SetMigrationTarget (SetMigrationTargetReq) returns (SetMigrationTargetRep){}
+  rpc MigrationNegotiate (MigrationNegotiateReq) returns (MigrationNegotiateRep){}
+  rpc DeleteMigrationTarget (DeleteMigrationTargetReq) returns (DeleteMigrationTargetRep){}
+  rpc DeleteMigrationSource (DeleteMigrationSourceReq) returns (DeleteMigrationSourceRep){}
+  
+  rpc AddReplicas (AddReplicasReq) returns (AddReplicasRep){}
+  rpc ReplicaNegotiate(ReplicaNegotiateReq) returns (ReplicaNegotiateRep){}
+  rpc DeleteReplica(DeleteReplicaReq) returns (DeleteReplicaRep){}
+  rpc DeleteStorage(DeleteStorageReq) returns (DeleteStorageRep){}
+  rpc Recover(RecoverReq) returns (RecoverRep){}
+  
+  rpc GetRuntimeState(GetRuntimeStateReq) returns (GetRuntimeStateRep){}
+}
+
+message LivenessRequest {
+
+}
+
+message LivenessReply {
+
+}
+
+message Address{
+  string rpc_ip = 1;
+  int32 rpc_port = 2;
+}
+
+message RuntimeConfig{
+  int32 runtime_id = 1;
+  string input_port_mac = 2;
+  string output_port_mac = 3;
+  string control_port_mac = 4;
+  string rpc_ip = 5;
+  int32 rpc_port = 6;
+}
+
+message AddOutputRtsReq{
+  repeated Address addrs = 1;
+}
+
+message AddOutputRtsRes{
+}
+
+message AddInputRtReq{
+  RuntimeConfig input_runtime = 1;
+}
+
+message AddInputRtRep{
+  RuntimeConfig local_runtime = 1;
+}
+
+message DeleteOutputRtReq{
+  Address addrs = 1;
+}
+
+message DeleteOutputRtRep{
+}
+
+message DeleteInputRtReq{
+  Address addrs = 1;
+}
+
+message DeleteInputRtRep{
+}
+
+message AddOutputMacReq{
+  Address addrs = 1;
+}
+
+message AddOutputMacRep{
+}
+
+message AddInputMacReq{
+  Address addrs = 1;
+}
+
+message AddInputMacRep{
+}
+
+message DeleteOutputMacReq{
+  Address addrs = 1;
+}
+
+message DeleteOutputMacRep{
+}
+
+message DeleteInputMacReq{
+  Address addrs = 1;
+}
+
+message DeleteInputMacRep{
+}
+
+message MigrateToReq{
+  Address addr = 1;
+  uint64 quota = 2;
+}
+
+message MigrateToRep{
+}
+
+message SetMigrationTargetReq{
+  repeated Address addrs = 1;
+}
+
+message SetMigrationTargetRep{
+}
+
+message MigrationNegotiateReq{
+  RuntimeConfig migration_source_config = 1;
+  repeated Address input_runtime_addrs = 2;
+  repeated Address output_runtime_addrs = 3;
+}
+
+message MigrationNegotiateRep{
+  RuntimeConfig migration_target_runtime = 1;
+}
+
+message DeleteMigrationTargetReq{
+  Address addr = 1;
+}
+
+message DeleteMigrationTargetRep{
+}
+
+message DeleteMigrationSourceReq{
+  Address addr = 1;
+}
+
+message DeleteMigrationSourceRep{
+}
+
+message AddReplicasReq{
+  repeated Address addrs = 1;
+}
+
+message AddReplicasRep{
+}
+
+message ReplicaNegotiateReq{
+  RuntimeConfig replication_source_info = 1;
+  repeated Address input_runtime_addrs = 2;
+  repeated Address output_runtime_addrs = 3;
+}
+
+message ReplicaNegotiateRep{
+  RuntimeConfig replication_target_info = 1;
+}
+
+message DeleteReplicaReq{
+  Address addrs = 1;
+}
+
+message DeleteReplicaRep{
+}
+
+message DeleteStorageReq{
+  Address addrs = 1;
+}
+
+message DeleteStorageRep{
+}
+
+message RecoverReq{
+  Address addr = 1;
+}
+
+message RecoverRep{
+}
+
+message PortState{
+  uint64 input_port_incoming_pkts=1;
+  uint64 input_port_outgoing_pkts=2;
+  uint64 input_port_dropped_pkts=3;
+  uint64 output_port_incoming_pkts=4;
+  uint64 output_port_outgoing_pkts=5;
+  uint64 output_port_dropped_pkts=6;
+  uint64 control_port_incoming_pkts=7;
+  uint64 control_port_outgoing_pkts=8;
+  uint64 control_port_dropped_pkts=9;
+}
+
+message FlowState{
+  uint64 active_flows=1;
+  uint64 inactive_flows=2;
+}
+
+message MigrationState{
+  uint64 migration_index=1;
+  uint64 migration_target_runtime_id=2;
+  uint64 migration_qouta=3;
+  uint64 average_flow_migration_completion_time=4;
+  uint64 toal_flow_migration_completion_time=5;
+  uint64 successful_migration=6;
+}
+
+message StorageState{
+  uint64 replication_source_runtime_id=1;
+  uint64 num_of_flow_replicas=2;
+  uint64 total_replay_time=3;
+}
+
+message GetRuntimeStateReq{
+}
+
+message GetRuntimeStateRep{
+  PortState port_state=1;
+  FlowState flow_state=2;
+  MigrationState migration_state=3;
+  repeated StorageState storage_states=4;
+  repeated RuntimeConfig input_runtimes=5;
+  repeated RuntimeConfig output_runtimes=6;
+  repeated RuntimeConfig replicas=7;
+  repeated RuntimeConfig storages=8;
+  RuntimeConfig migration_target=9;
+  RuntimeConfig local_runtime=10;
+}
