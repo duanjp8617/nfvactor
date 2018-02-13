@@ -63,8 +63,8 @@ cp_l2forward:0 -> rt1_cport_portout
 cp_l2forward:1 -> rt2_cport_portout
 cp_l2forward:2 -> rt3_cport_portout
 
-rt2_oport_portinc -> sink
-rt3_oport_portinc -> sink
+rt2_oport_portinc -> sink;
+rt3_oport_portinc -> sink;
 
 ret = dp_l2forward.add([{'addr':'52:54:02:00:00:01', 'gate':0},
                         {'addr':'52:54:03:00:00:01', 'gate':1},
@@ -80,10 +80,8 @@ bess.add_worker(1, 1)
 bess.attach_task("rt1_oport_portinc", 0, wid=1)
 bess.attach_task("rt2_iport_portinc", 0, wid=1)
 bess.attach_task("rt3_iport_portinc", 0, wid=1)
-bess.attach_task("rt2_oport_portinc", 0, wid=1)
-bess.attach_task("rt3_oport_portinc", 0, wid=1)
 bess.attach_task("rt1_cport_portinc", 0, wid=1)
 bess.attach_task("rt2_cport_portinc", 0, wid=1)
 bess.attach_task("rt3_cport_portinc", 0, wid=1)
-
-bess.add_worker(0, 0)
+bess.attach_task("rt2_oport_portinc", 0, wid=1)
+bess.attach_task("rt3_oport_portinc", 0, wid=1)

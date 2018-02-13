@@ -35,7 +35,6 @@
 #include "../../utils/fast_hash_map.h"
 #include "../../utils/fixed_array.h"
 
-
 using namespace bess;
 using namespace std;
 

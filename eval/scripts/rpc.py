@@ -105,11 +105,11 @@ def Recover(source_runtime, target_runtime):
 
 def main():
 
-    AddOutputRts(info.r1_rt1, info.r2_rt1)
+    AddOutputRts(info.r1_rt1, info.r1_rt2)
 
-    AddOutputRts(info.r1_rt1, info.r3_rt1)
+    AddOutputRts(info.r1_rt1, info.r1_rt3)
 
-    AddOutputMac(info.r1_rt1, info.r2_rt1)
+    AddOutputMac(info.r1_rt1, info.r1_rt2)
 
     #AddOutputMac(info.r1_rt1, info.r3_rt1)
 
@@ -117,7 +117,7 @@ def main():
 
     #MigrateTo(info.r2_rt1, info.r3_rt1, 1000)
 
-    AddReplicas(info.r2_rt1, info.r3_rt1)
+    #AddReplicas(info.r2_rt1, info.r3_rt1)
 
     #Recover(info.r3_rt1, info.r2_rt1)
 

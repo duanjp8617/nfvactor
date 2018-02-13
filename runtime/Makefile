@@ -72,7 +72,7 @@ ifeq "$(CXXVERSION_5_OR_HIGHER)" "1"
   CXXFLAGS += -Wshadow
 endif
 
-LDFLAGS += -rdynamic -L$(DPDK_LIB_DIR) -Wl,-rpath=$(DPDK_LIB_DIR) -pthread \
+LDFLAGS += -rdynamic -L$(DPDK_LIB_DIR) -L/usr/local/lib -Wl,-rpath=$(DPDK_LIB_DIR) -pthread \
 	   -static-libstdc++
 
 LIBS += -Wl,-non_shared \

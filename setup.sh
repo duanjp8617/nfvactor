@@ -1,5 +1,7 @@
 #! /bin/sh
 
+# Follow https://grpc.io/docs/quickstart/python.html to install python grpc first.
+
 # record current working directory
 NFA_DIR=`pwd`
 
@@ -17,31 +19,29 @@ if [ ! -d "./grpc" ]; then
   git clone -b $(curl -L http://grpc.io/release) https://github.com/grpc/grpc
   cd grpc
   git submodule update --init
-  make -j`nproc`
-  sudo make install
 
-  # go to /third_party/protobuf and install protobuf
+  # First build protobuf.
   cd ./third_party/protobuf
-  make -j`nproc`
+  sudo apt-get install autoconf automake libtool curl make g++ unzip
+  ./autogen.sh
+  ./configure
+  make -j
   sudo make install
+  sudo ldconfig
+
+  # Then build grpc, in case that the build fail on Ubuntu16.04,
+  # please modify the following line in Makefile from :
+  # HOST_LDLIBS_PROTOC += $(addprefix -l, $(LIBS_PROTOC))
+  # to:
+  # HOST_LDLIBS_PROTOC += -L/usr/local/lib $(addprefix -l, $(LIBS_PROTOC))
+  # Then use "make clean" and "make -j" to re-build grpc
+  # Source: https://github.com/grpc/grpc/issues/9549
+  cd ../../
+  make -j
+  sudo make install
+  sudo ldconfig
 else
   echo "grpc and protobuf have already been installed."
-fi
-
-# switch to deps directory
-cd $NFA_DIR/deps
-
-# install benchmark
-if [ ! -d "./benchmark" ]; then
-  git clone https://github.com/google/benchmark.git
-  cd benchmark
-  mkdir build
-  cd build
-  cmake ..
-  make -j`nproc`
-  sudo make install
-else
-  echo "benchmark has already been installed."
 fi
 
 #switch to deps directory
@@ -52,8 +52,9 @@ sudo apt-get install libssl-dev libunwind8-dev liblzma-dev libgoogle-glog-dev li
 
 # download and build bess
 if [ ! -d "./bess" ]; then
-  git clone -b $BESS_BRANCH https://github.com/NetSys/bess.git
+  git clone -b $BESS_BRANCH https://github.com/duanjp8617/bess.git
   cd bess
+  cp $NFA_DIR/besspatch/myflowgen.c ./core/modules/
   ./build.py
 else
   echo "bess has already been built."

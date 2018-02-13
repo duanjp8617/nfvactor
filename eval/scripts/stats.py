@@ -56,6 +56,23 @@ def get_runtime_cport_stat(current_server_port_stats, runtime_info):
     return {"time_ms":current_server_port_stats["time_ms"], \
     "packets":packets, "dropped":dropped, "bytes":total_bytes}
 
+def get_runtime_oport_stat(current_server_port_stats, runtime_info):
+    port_name = runtime_info["rt_name"]+"_oport"
+    lines = current_server_port_stats["port_stats"].split("\n")
+
+    index = 0
+    for line in lines:
+        if port_name in line:
+            break
+        index += 1
+
+    packets = long(lines[index+2].split(":")[1].replace(',', ''))
+    dropped = long(lines[index+3].split(":")[1].replace(',', ''))
+    total_bytes = long(lines[index+4].split(":")[1].replace(',', ''))
+
+    return {"time_ms":current_server_port_stats["time_ms"], \
+    "packets":packets, "dropped":dropped, "bytes":total_bytes}
+
 def get_runtime_throughput_perf(runtime_port_stat_before, runtime_port_stat_after):
     total_time = runtime_port_stat_after["time_ms"] - runtime_port_stat_before["time_ms"]
 
@@ -154,21 +171,21 @@ def get_runtime_replication_stat(runtime_log):
     "recovery_time_ms":recovery_time_ms}
 
 def main():
-    r2_port_stats = get_server_port_stats(info.r2_env)
-    r2_rt1_iport_stat_before = get_runtime_port_stat(r2_port_stats, info.r2_rt1)
-    r2_rt1_cport_stat_before = get_runtime_cport_stat(r2_port_stats, info.r2_rt1)
+    r1_port_stats = get_server_port_stats(info.r1_env)
+    r1_rt2_iport_stat_before = get_runtime_port_stat(r1_port_stats, info.r1_rt2)
+    r1_rt2_cport_stat_before = get_runtime_cport_stat(r1_port_stats, info.r1_rt2)
     time.sleep(10)
-    r2_port_stats = get_server_port_stats(info.r2_env)
-    r2_rt1_iport_stat_after = get_runtime_port_stat(r2_port_stats, info.r2_rt1)
-    r2_rt1_cport_stat_after = get_runtime_cport_stat(r2_port_stats, info.r2_rt1)
+    r1_port_stats = get_server_port_stats(info.r1_env)
+    r1_rt2_iport_stat_after = get_runtime_port_stat(r1_port_stats, info.r1_rt2)
+    r1_rt2_cport_stat_after = get_runtime_cport_stat(r1_port_stats, info.r1_rt2)
 
     #r1_rt2_port_stat = get_runtime_port_stat(r1_port_stats, info.r1_rt2)
 
     #r1_rt3_port_stat = get_runtime_port_stat(r1_port_stats, info.r1_rt3)
 
-    print get_runtime_throughput_perf(r2_rt1_iport_stat_before, r2_rt1_iport_stat_after)
+    print get_runtime_throughput_perf(r1_rt2_iport_stat_before, r1_rt2_iport_stat_after)
     print "------"
-    print get_runtime_throughput_perf(r2_rt1_cport_stat_before, r2_rt1_cport_stat_after)
+    print get_runtime_throughput_perf(r1_rt2_cport_stat_before, r1_rt2_cport_stat_after)
     #print r1_rt2_port_stat
     #print r1_rt3_port_stat
 

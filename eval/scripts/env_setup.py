@@ -124,7 +124,7 @@ def add_variable_flows(traffic_gen_name, runtime_info, pps, flow_rate, flow_dura
 
     local_runtime_id = runtime_info["runtime_id"]-10
     core_id = local_runtime_id+8
-    tmp_bess_file.write("bess.attach_task(\""+final_traffic_gen_name+"\", 0, wid="+str(core_id)+")")
+    tmp_bess_file.write("bess.attach_task(\""+final_traffic_gen_name+"\", 0, wid=0)")
 
     tmp_bess_file.write("\n")
     tmp_bess_file.close()
@@ -143,7 +143,7 @@ def add_fixed_flows(traffic_gen_name, runtime_info, flow_arrival_interval, flow_
 
     local_runtime_id = runtime_info["runtime_id"]-10
     core_id = local_runtime_id+8
-    tmp_bess_file.write("bess.attach_task(\""+final_traffic_gen_name+"\", 0, wid="+str(core_id)+")")
+    tmp_bess_file.write("bess.attach_task(\""+final_traffic_gen_name+"\", 0, wid=0)")
 
     tmp_bess_file.write("\n")
     tmp_bess_file.close()
@@ -175,7 +175,7 @@ def main():
     #add_pkt("simple_tcp.template", 64)
     #add_variable_flows("fg1", info.r1_rt1, pps=10000000, flow_rate = 100000, flow_duration = 10.0)
     start_traffic_generator("fg1", info.r1_rt1)
-    #start_traffic_generator("fg2", info.r1_rt1)
+    start_traffic_generator("fg2", info.r1_rt1)
 
 if __name__ == '__main__':
     main()
