@@ -8,7 +8,7 @@ Currently, the supported OS is only Ubuntu 16.04.
 Build Instructions
 -------------------
 
-* Follow https://grpc.io/docs/quickstart/python.html to install python grpc first.
+* Follow https://grpc.io/docs/quickstart/python.html to install python grpcio and grpcio-tools first.
 
 * Clone this repository to your home folder `~/` with `git clone https://github.com/duanjp8617/nfvactor.git`. To run the demo, cloning into home folder `~/` is a must.
 
@@ -22,6 +22,8 @@ to: <br />
 HOST_LDLIBS_PROTOC += -L/usr/local/lib $(addprefix -l, $(LIBS_PROTOC)) <br />
 Then use `make clean`, `make -j`, `sudo make install` and `sudo ldconfig` to re-build grpc
 Source: https://github.com/grpc/grpc/issues/9549
+
+* `cd ~/nfvactor/eval/scripts` and then `python gen_grpc.py`. This generates python bindings for the GRPC functions that we use to control the runtimes.
 
 Setup DPDK Execution Environment
 -----------------------------------
@@ -82,3 +84,7 @@ Replication Recovery Demo
 * `python replication_recovery.py`. This creates one virtual switch (runtime 1), runtime 2 and runtime 3. The traffic generator first sends traffic to runtime 2. Then runtime 2 then replicates all of its traffic to to runtime 3. Finally, we recover all the flows that is originally processed by runtime 2 on runtime 3. The replication recovery time will be printed when the script finishes executing.
 
 * `python cleanup.py`. This cleans things up.
+
+Note
+-----
+For multi-server and multi-runtime configuration, please contact the author.
