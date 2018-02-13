@@ -23,6 +23,8 @@ HOST_LDLIBS_PROTOC += -L/usr/local/lib $(addprefix -l, $(LIBS_PROTOC)) <br />
 Then use `make clean`, `make -j`, `sudo make install` and `sudo ldconfig` to re-build grpc
 Source: https://github.com/grpc/grpc/issues/9549
 
+* `cd ~/nfvactor/runtime` and then `make`. This builds the runtime executable `server_main` in `~/nfvactor/runtime/samples/real_rpc_basic`.
+
 * `cd ~/nfvactor/eval/scripts` and then `python gen_grpc.py`. This generates python bindings for the GRPC functions that we use to control the runtimes.
 
 Setup DPDK Execution Environment
