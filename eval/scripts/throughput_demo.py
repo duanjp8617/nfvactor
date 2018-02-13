@@ -41,7 +41,7 @@ def main():
     print "Add runtime 2, with service chain "+service_chain+"."
     env_setup.launch_runtime(info.r1_env, info.r1_rt2, service_chain)
 
-    time.sleep(1)
+    time.sleep(10)
     print "Execute RPC calls to initialize cluster."
     rpc.AddOutputRts(info.r1_rt1, info.r1_rt2)
     rpc.AddOutputMac(info.r1_rt1, info.r1_rt2)
