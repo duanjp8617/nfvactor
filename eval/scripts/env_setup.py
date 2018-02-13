@@ -89,12 +89,12 @@ def remove_r1_tmp_file():
 # Configure the packet template used by the traffic generator:
 def add_pkt(template_file_name, pkt_size):
     template_file = open(expanduser("~")+ \
-    '/nfa-ws/eval/scripts/'+template_file_name)
+    '/nfvactor/eval/scripts/'+template_file_name)
 
     lines = template_file.readlines()
 
     tmp_bess_file = open(expanduser("~")+ \
-    '/nfa-ws/eval/scripts/bess_r1_script_tmp', "a+")
+    '/nfvactor/eval/scripts/bess_r1_script_tmp', "a+")
 
     tmp_bess_file.write("\n# Define packet type\n")
 
@@ -114,7 +114,7 @@ def add_variable_flows(traffic_gen_name, runtime_info, pps, flow_rate, flow_dura
     final_traffic_gen_name = traffic_gen_name+"_"+runtime_info["rt_name"]
 
     tmp_bess_file = open(expanduser("~")+ \
-    '/nfa-ws/eval/scripts/bess_r1_script_tmp', "a+")
+    '/nfvactor/eval/scripts/bess_r1_script_tmp', "a+")
 
     tmp_bess_file.write(final_traffic_gen_name+"::FlowGen(template=pkt_data, ")
     tmp_bess_file.write("pps="+str(pps)+", ")
@@ -133,7 +133,7 @@ def add_fixed_flows(traffic_gen_name, runtime_info, flow_arrival_interval, flow_
     final_traffic_gen_name = traffic_gen_name+"_"+runtime_info["rt_name"]
 
     tmp_bess_file = open(expanduser("~")+ \
-    '/nfa-ws/eval/scripts/bess_r1_script_tmp', "a+")
+    '/nfvactor/eval/scripts/bess_r1_script_tmp', "a+")
 
     tmp_bess_file.write(final_traffic_gen_name+"::MyFlowGen(template=pkt_data, ")
     tmp_bess_file.write("flow_arrival_interval="+str(flow_arrival_interval)+", ")
