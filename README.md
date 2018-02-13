@@ -10,6 +10,8 @@ Build Instructions
 
 * Follow https://grpc.io/docs/quickstart/python.html to install python grpcio and grpcio-tools first.
 
+* Install scapy with `sudo pip install scapy`
+
 * Clone this repository to your home folder `~/` with `git clone https://github.com/duanjp8617/nfvactor.git`. To run the demo, cloning into home folder `~/` is a must.
 
 * `cd ~/nfvactor`
