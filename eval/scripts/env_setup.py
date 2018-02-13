@@ -84,7 +84,7 @@ def create_r1_tmp_file():
     info.HOME_DIR+"/eval/scripts/bess_r1_script_tmp")
 
 def remove_r1_tmp_file():
-    remove(expanduser("~")+'/nfa-ws/eval/scripts/bess_r1_script_tmp')
+    remove(expanduser("~")+'/nfvactor/eval/scripts/bess_r1_script_tmp')
 
 # Configure the packet template used by the traffic generator:
 def add_pkt(template_file_name, pkt_size):
