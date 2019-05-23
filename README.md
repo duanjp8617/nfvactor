@@ -1,7 +1,9 @@
 NFVactor
 =========
 
-This is the source code for NFVactor. It contains the source code of the runtime (in ./runtime directory) and several scripts (in ./eval/scripts directory) for 4 important demos.
+This repository contains the source code of NFVactor. The detailed architecture of NFVactor is decribed in paper: https://ieeexplore.ieee.org/document/8633371. 
+
+The source code includes the runtime (in ./runtime directory) and several scripts (in ./eval/scripts directory) for 4 important demos.
 
 Currently, the supported OS is only Ubuntu 16.04.
 
